@@ -32,7 +32,7 @@ const SampleWorkouts = styled.div`
   gap: 10px;
 `;
 const SampleWorkoutCard = styled.div`
-  font-size:8px;
+  font-size: 8px;
   width: 60px; /* Adjust width as needed */
   height: 70px; /* Adjust height as needed */
   padding: 10px;
@@ -41,9 +41,10 @@ const SampleWorkoutCard = styled.div`
   background-color: ${({ theme }) => theme.background_secondary};
   color: ${({ theme }) => theme.text_primary};
   overflow: hidden; /* Hide overflowing text */
+  cursor: pointer;
 `;
 
-const AddWorkout = ({setWorkout, addNewWorkout, buttonLoading }) => {
+const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
   const sampleWorkouts = [
     "#Legs\n-Back Squat\n-5 setsX15 reps\n-30 kg\n-10 min",
     "#Arms\n-Bicep Curls\n-3 setsX12 reps\n-15 kg\n-8 min",
@@ -62,6 +63,10 @@ const AddWorkout = ({setWorkout, addNewWorkout, buttonLoading }) => {
     "#Upper Body\n-Push-Ups\n-4 setsX12 reps\n-Bodyweight\n-10 min",
   ];
 
+  const handleSampleClick = (sample) => {
+    setWorkout((prevWorkout) => prevWorkout + "\n" + sample);
+  };
+
   return (
     <Card>
       <Title>Add New Workout</Title>
@@ -77,7 +82,7 @@ const AddWorkout = ({setWorkout, addNewWorkout, buttonLoading }) => {
 -Reps
 -Weight
 -Duration`}
-        value=""
+        value={workout}
         handelChange={(e) => setWorkout(e.target.value)}
       />
       <Button
@@ -87,14 +92,20 @@ const AddWorkout = ({setWorkout, addNewWorkout, buttonLoading }) => {
         isLoading={buttonLoading}
         isDisabled={buttonLoading}
       />
-      <SampleWorkouts>
-        {sampleWorkouts.map((sample, index) => (
-          <SampleWorkoutCard key={index}>{sample}</SampleWorkoutCard>
-        ))}
-      </SampleWorkouts>
+      {workout && (
+        <SampleWorkouts>
+          {sampleWorkouts.map((sample, index) => (
+            <SampleWorkoutCard
+              key={index}
+              onClick={() => handleSampleClick(sample)}
+            >
+              {sample}
+            </SampleWorkoutCard>
+          ))}
+        </SampleWorkouts>
+      )}
     </Card>
   );
 };
 
 export default AddWorkout;
-
