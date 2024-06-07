@@ -8,20 +8,21 @@ dotenv.config();
 
 const app = express();
 
-// Configure CORS
 const corsOptions = {
-  origin: 'https://keerthana-fitness-logger.netlify.app', // Your frontend URL
+  origin: 'https://keerthana-fitness-logger.netlify.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 };
-app.use(cors(corsOptions));
 
+app.use(cors(corsOptions));
 app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true })); // for form data
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/user/", UserRoutes);
 
-// Error handler
+app.options('*', cors(corsOptions)); // Preflight request handling
+
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || "Something went wrong";
@@ -34,7 +35,7 @@ app.use((err, req, res, next) => {
 
 app.get("/", async (req, res) => {
   res.status(200).json({
-    message: "Hello developers from GFG",
+    message: "Hello developers I am Keerthana Backend Working..",
   });
 });
 
