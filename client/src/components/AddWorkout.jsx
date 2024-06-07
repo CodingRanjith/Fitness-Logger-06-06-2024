@@ -25,13 +25,21 @@ const Title = styled.div`
     font-size: 14px;
   }
 `;
-
-const SampleWorkout = styled.div`
-  cursor: pointer;
-  color: ${({ theme }) => theme.secondary};
+const SampleWorkouts = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+`;
+const SampleWorkoutCard = styled.div`
+  padding: 10px;
+  border: 1px solid ${({ theme }) => theme.text_primary + 20};
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.background_secondary};
+  color: ${({ theme }) => theme.text_primary};
 `;
 
-const AddWorkout = ({ setWorkout, addNewWorkout, buttonLoading }) => {
+const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
   const sampleWorkouts = [
     "#Legs\n-Back Squat\n-5 setsX15 reps\n-30 kg\n-10 min",
     "#Arms\n-Bicep Curls\n-3 setsX12 reps\n-15 kg\n-8 min",
@@ -49,7 +57,6 @@ const AddWorkout = ({ setWorkout, addNewWorkout, buttonLoading }) => {
     "#Calves\n-Calf Raises\n-3 setsX15 reps\n-Bodyweight\n-6 min",
     "#Upper Body\n-Push-Ups\n-4 setsX12 reps\n-Bodyweight\n-10 min",
   ];
-  
 
   return (
     <Card>
@@ -66,15 +73,9 @@ const AddWorkout = ({ setWorkout, addNewWorkout, buttonLoading }) => {
 -Reps
 -Weight
 -Duration`}
+        value={workout}
         handelChange={(e) => setWorkout(e.target.value)}
       />
-      <div>
-        {sampleWorkouts.map((workout, index) => (
-          <SampleWorkout key={index} onClick={() => setWorkout(workout)}>
-            {workout}
-          </SampleWorkout>
-        ))}
-      </div>
       <Button
         text="Add Workout"
         small
@@ -82,8 +83,14 @@ const AddWorkout = ({ setWorkout, addNewWorkout, buttonLoading }) => {
         isLoading={buttonLoading}
         isDisabled={buttonLoading}
       />
+      <SampleWorkouts>
+        {sampleWorkouts.map((sample, index) => (
+          <SampleWorkoutCard key={index}>{sample}</SampleWorkoutCard>
+        ))}
+      </SampleWorkouts>
     </Card>
   );
 };
 
 export default AddWorkout;
+
