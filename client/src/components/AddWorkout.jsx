@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import TextInput from "./TextInput";
 import Button from "./Button";
@@ -62,6 +62,10 @@ const AddWorkout = ({ workout, addNewWorkout, buttonLoading }) => {
     "#Upper Body\n-Push-Ups\n-4 setsX12 reps\n-Bodyweight\n-10 min",
   ];
 
+  const handleSampleClick = (sample) => {
+    addNewWorkout(workout + "\n" + sample);
+  };
+
   return (
     <Card>
       <Title>Add New Workout</Title>
@@ -82,7 +86,7 @@ const AddWorkout = ({ workout, addNewWorkout, buttonLoading }) => {
       <Button
         text="Add Workout"
         small
-        onClick={() => addNewWorkout()}
+        onClick={() => addNewWorkout(workout)}
         isLoading={buttonLoading}
         isDisabled={buttonLoading}
       />
