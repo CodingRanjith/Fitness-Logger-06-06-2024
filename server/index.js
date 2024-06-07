@@ -7,12 +7,21 @@ import UserRoutes from "./routes/User.js";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// Configure CORS
+const corsOptions = {
+  origin: 'https://keerthana-fitness-logger.netlify.app', // Your frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions));
+
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true })); // for form data
 
 app.use("/api/user/", UserRoutes);
-// error handler
+
+// Error handler
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || "Something went wrong";
@@ -33,9 +42,9 @@ const connectDB = () => {
   mongoose.set("strictQuery", true);
   mongoose
     .connect(process.env.MONGODB_URL)
-    .then(() => console.log("Connected to Mongo DB"))
+    .then(() => console.log("Connected to MongoDB"))
     .catch((err) => {
-      console.error("failed to connect with mongo");
+      console.error("Failed to connect with MongoDB");
       console.error(err);
     });
 };
