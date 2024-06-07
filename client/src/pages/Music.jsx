@@ -95,7 +95,7 @@ const Music = () => {
         title="Spotify"
         className="spotify-embed"
         src="https://open.spotify.com/embed/playlist/37i9dQZF1DX70RN3TfWWJh?utm_source=generator&theme=0"
-        width="100%"
+        width="80%"
         height="352"
         frameBorder="0"
         allowFullScreen=""
