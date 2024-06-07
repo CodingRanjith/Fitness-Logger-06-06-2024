@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import TextInput from "./TextInput";
+import Input from "./TextInput"; // Renamed the imported component to "Input"
 import Button from "./Button";
 
 const Card = styled.div`
@@ -44,6 +44,10 @@ const SampleWorkoutCard = styled.div`
   cursor: pointer;
 `;
 
+const TextInputStyled = styled(Input)` // Renamed the styled component to "TextInputStyled"
+  height: 80px;
+`;
+
 const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
   const sampleWorkouts = [
     "#Legs\n-Back Squat\n-5 setsX15 reps\n-30 kg\n-10 min",
@@ -64,8 +68,7 @@ const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
   return (
     <Card>
       <Title>Add New Workout</Title>
-      <div style={{ height: '80px' }}>
-      <TextInput
+      <TextInputStyled // Changed TextInput to TextInputStyled
         label="Workout"
         textArea
         rows={10}
@@ -80,7 +83,6 @@ const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
         value={workout}
         handelChange={(e) => setWorkout(e.target.value)}
       />
-      </div>
       <Button
         text="Add Workout"
         small
