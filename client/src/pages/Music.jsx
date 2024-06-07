@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 20px;
   text-align: center;
@@ -10,7 +10,8 @@ const Container = styled.div`
 
 const SpotifyEmbed = styled.iframe`
   border-radius: 12px;
-  height: 800px;
+  width: 100vw; /* Changed to 100vw for full width */
+  height: 100vh; /* 100% of the viewport height */
 `;
 
 const RecommendedMusicButtons = styled.div`
