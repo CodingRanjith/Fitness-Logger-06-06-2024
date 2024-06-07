@@ -64,7 +64,7 @@ const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
   return (
     <Card>
       <Title>Add New Workout</Title>
-      <TextInput styled
+      <TextInput
         label="Workout"
         textArea
         rows={10}
