@@ -1,108 +1,92 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import styled from "styled-components";
 
 const Container = styled.div`
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
-  text-align: center;
+  padding: 40px;
 `;
 
-const SpotifyEmbed = styled.iframe`
-  border-radius: 12px;
-  height: 800px;
+const SearchBar = styled.input`
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
 `;
 
-const RecommendedMusicButtons = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+const VideoGrid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 20px;
 `;
 
-const MusicButton = styled.div`
-  position: relative;
-  width: 300px;
-  height: 200px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 10px;
+const VideoCard = styled.div`
+  width: calc((100% - 40px) / 3); /* Adjust the width for three cards per row */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s ease;
 
-  &:hover {
-    transform: scale(1.05);
+  iframe {
+    width: 100%;
+    height: 200px;
   }
 `;
 
-const ButtonTitle = styled.span`
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-`;
+const Tutorials = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [videos, setVideos] = useState([]);
 
-const MusicButtonOverlay = styled.div`
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.2);
-  transition: left 0.3s ease;
-`;
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const response = await axios.get(
+          `https://www.googleapis.com/youtube/v3/search`, {
+            params: {
+              key: 'AIzaSyDAj1H3OhdlMUDeYNIzGwLIvr3oi487qFE',
+              type: 'video',
+              part: 'snippet',
+              q: searchTerm,
+              maxResults: 9
+            }
+          }
+        );
+        setVideos(response.data.items);
+      } catch (error) {
+        console.error("Error fetching videos:", error);
+      }
+    };
 
-const MusicButtonContainer = styled.a`
-  position: relative;
-  display: block;
-`;
-
-const RecommendedMusic = () => {
-  // Placeholder for playlists data
-  // const playlists = [
-  //   {
-  //     title: 'High Intensity Workout',
-  //     imageUrl: require('../assets/HighIntensityWorkoutImage.jpg'),
-  //     spotifyLink: 'https://open.spotify.com/album/1YiQva7apVKbVNv8NMorNZ',
-  //   },
-  //   // Add more playlists as needed
-  // ];
+    if (searchTerm) {
+      fetchVideos();
+    }
+  }, [searchTerm]);
 
   return (
     <Container>
-      {/* <h2>Recommended Music</h2>
-      <RecommendedMusicButtons>
-        {playlists.map((playlist, index) => (
-          <MusicButtonContainer key={index} href={playlist.spotifyLink} target="_blank" rel="noopener noreferrer">
-            <MusicButton style={{ backgroundImage: `url(${playlist.imageUrl.default})` }}>
-              <ButtonTitle>{playlist.title}</ButtonTitle>
-              <MusicButtonOverlay />
-            </MusicButton>
-          </MusicButtonContainer>
+      <h1>Tutorial Videos</h1>
+      <SearchBar
+        type="text"
+        placeholder="Search videos..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <VideoGrid>
+        {videos.map((video, index) => (
+          <VideoCard key={index}>
+            <h3>{video.snippet.title}</h3>
+            <iframe
+              src={`https://www.youtube.com/embed/${video.id.videoId}`}
+              title={video.snippet.title}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </VideoCard>
         ))}
-      </RecommendedMusicButtons> */}
-      <SpotifyEmbed
-        title="Spotify"
-        className="spotify-embed"
-        src="https://open.spotify.com/embed/playlist/37i9dQZF1DX70RN3TfWWJh?utm_source=generator&theme=0"
-        width="100%"
-        height="352"
-        frameBorder="0"
-        allowFullScreen=""
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
-      ></SpotifyEmbed>
+      </VideoGrid>
     </Container>
   );
 };
 
-export default RecommendedMusic;
+export default Tutorials;
