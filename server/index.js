@@ -8,27 +8,34 @@ dotenv.config();
 
 const app = express();
 
-// Configure CORS
+// Configure CORS to allow requests from your frontend
 const corsOptions = {
-  origin: 'https://keerthana-fitness-logger.netlify.app', // Your frontend URL
+  origin: 'https://keerthana-fitness-logger.netlify.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true // If you need to include cookies in CORS requests
+  credentials: true
 };
 
 app.use(cors(corsOptions));
 app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true })); // for form data
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/user/", UserRoutes);
-
-// Preflight request handling
-app.options('*', cors(corsOptions));
 
 // Error handler
 app.use((err, req, res, next) => {
   const status = err.status || 500;
   const message = err.message || "Something went wrong";
+
+  // Handle duplicate key error
+  if (err.code === 11000) {
+    return res.status(400).json({
+      success: false,
+      status: 400,
+      message: "Duplicate key error: A workout with this name already exists.",
+    });
+  }
+
   return res.status(status).json({
     success: false,
     status,
