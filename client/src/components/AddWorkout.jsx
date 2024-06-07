@@ -32,13 +32,15 @@ const SampleWorkouts = styled.div`
   gap: 10px;
 `;
 const SampleWorkoutCard = styled.div`
-  width: 30px; /* Adjust width as needed */
-  height: 50px; /* Adjust height as needed */
+  font-size:10px;
+  width: 50px; /* Adjust width as needed */
+  height: 80px; /* Adjust height as needed */
   padding: 10px;
   border: 1px solid ${({ theme }) => theme.text_primary + 20};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.background_secondary};
   color: ${({ theme }) => theme.text_primary};
+  cursor: pointer;
 `;
 
 const AddWorkout = ({ workout, addNewWorkout, buttonLoading }) => {
@@ -59,6 +61,10 @@ const AddWorkout = ({ workout, addNewWorkout, buttonLoading }) => {
     "#Calves\n-Calf Raises\n-3 setsX15 reps\n-Bodyweight\n-6 min",
     "#Upper Body\n-Push-Ups\n-4 setsX12 reps\n-Bodyweight\n-10 min",
   ];
+
+  const handleSampleClick = (sample) => {
+    setWorkout((prevWorkout) => prevWorkout + "\n" + sample);
+  };
 
   return (
     <Card>
@@ -86,7 +92,9 @@ const AddWorkout = ({ workout, addNewWorkout, buttonLoading }) => {
       />
       <SampleWorkouts>
         {sampleWorkouts.map((sample, index) => (
-          <SampleWorkoutCard key={index}>{sample}</SampleWorkoutCard>
+          <SampleWorkoutCard key={index} onClick={() => handleSampleClick(sample)}>
+            {sample}
+          </SampleWorkoutCard>
         ))}
       </SampleWorkouts>
     </Card>
