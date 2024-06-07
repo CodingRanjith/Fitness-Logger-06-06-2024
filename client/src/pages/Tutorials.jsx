@@ -3,53 +3,29 @@ import axios from "axios";
 import styled from "styled-components";
 
 const Container = styled.div`
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 40px;
-`;
-
-const Title = styled.h1`
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
 `;
 
 const SearchBar = styled.input`
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
 `;
 
 const VideoGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
   justify-content: space-between;
+  gap: 20px;
 `;
 
 const VideoCard = styled.div`
-  width: calc((100% - 40px) / 3);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: calc((100% - 40px) / 3); /* Adjust the width for three cards per row */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
-  background: #fff;
-  transition: transform 0.3s;
-  &:hover {
-    transform: scale(1.05);
-  }
-
-  h3 {
-    padding: 10px;
-    font-size: 14px;
-    color: #333;
-    height: 50px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
 
   iframe {
     width: 100%;
@@ -62,18 +38,17 @@ const Tutorials = () => {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    const fetchVideos = async (query) => {
+    const fetchVideos = async () => {
       try {
         const response = await axios.get(
-          `https://www.googleapis.com/youtube/v3/search`,
-          {
+          `https://www.googleapis.com/youtube/v3/search`, {
             params: {
               key: 'AIzaSyDAj1H3OhdlMUDeYNIzGwLIvr3oi487qFE',
               type: 'video',
               part: 'snippet',
-              q: query,
-              maxResults: 9,
-            },
+              q: searchTerm,
+              maxResults: 9
+            }
           }
         );
         setVideos(response.data.items);
@@ -83,16 +58,13 @@ const Tutorials = () => {
     };
 
     if (searchTerm) {
-      fetchVideos(searchTerm);
-    } else {
-      // Fetch default workout videos
-      fetchVideos("workout videos");
+      fetchVideos();
     }
   }, [searchTerm]);
 
   return (
     <Container>
-      <Title>Tutorial Videos</Title>
+      <h1>Tutorial Videos</h1>
       <SearchBar
         type="text"
         placeholder="Search videos..."
