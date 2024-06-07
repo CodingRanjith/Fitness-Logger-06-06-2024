@@ -7,6 +7,7 @@ import CategoryChart from "../components/cards/CategoryChart";
 import AddWorkout from "../components/AddWorkout";
 import WorkoutCard from "../components/cards/WorkoutCard";
 import { addWorkout, getDashboardDetails, getWorkouts } from "../api";
+import videoSrc from '../assets/work.mp4';
 
 const Container = styled.div`
   flex: 1;
@@ -63,6 +64,37 @@ const CardWrapper = styled.div`
   }
 `;
 
+const VideoContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100vh;
+`;
+
+const VideoBG = styled.video`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const VideoText = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  color: #ffffff;
+`;
+
+const WhiteText = styled.h1`
+  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(165, 162, 134);
+  font-size: 2em;
+  font-weight: 1000;
+`;
+
 const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState();
@@ -73,7 +105,7 @@ const Dashboard = () => {
 -5 setsX15 reps
 -30 kg
 -10 min`);
-
+  
   const dashboardData = async () => {
     setLoading(true);
     const token = localStorage.getItem("fittrack-app-token");
@@ -111,13 +143,14 @@ const Dashboard = () => {
     dashboardData();
     getTodaysWorkout();
   }, []);
+
   return (
     <Container>
       <Wrapper>
         <Title>Dashboard</Title>
         <FlexWrap>
           {counts.map((item) => (
-            <CountsCard item={item} data={data} />
+            <CountsCard key={item.id} item={item} data={data} />
           ))}
         </FlexWrap>
 
@@ -136,10 +169,21 @@ const Dashboard = () => {
           <Title>Todays Workouts</Title>
           <CardWrapper>
             {todaysWorkouts.map((workout) => (
-              <WorkoutCard workout={workout} />
+              <WorkoutCard key={workout.id} workout={workout} />
             ))}
           </CardWrapper>
         </Section>
+
+        <VideoContainer className="video-container">
+          <VideoBG autoPlay muted loop id="video-bg">
+            <source src={videoSrc} type="video/mp4" />
+          </VideoBG>
+          <VideoText className="video-text">
+            <WhiteText className="white-text">
+              A BETTER WAY TO TRACK YOUR FITNESS
+            </WhiteText>
+          </VideoText>
+        </VideoContainer>
       </Wrapper>
     </Container>
   );
