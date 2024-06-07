@@ -75,6 +75,7 @@ const OutlinedInput = styled.div`
 `;
 
 const Input = styled.input`
+  height:200px;
   width: 100%;
   font-size: 14px;
   outline: none;
