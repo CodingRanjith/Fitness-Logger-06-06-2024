@@ -32,15 +32,16 @@ const SampleWorkouts = styled.div`
   gap: 10px;
 `;
 const SampleWorkoutCard = styled.div`
+  width: 30px; /* Adjust width as needed */
+  height: 50px; /* Adjust height as needed */
   padding: 10px;
   border: 1px solid ${({ theme }) => theme.text_primary + 20};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.background_secondary};
   color: ${({ theme }) => theme.text_primary};
-  cursor: pointer;
 `;
 
-const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
+const AddWorkout = ({ workout, addNewWorkout, buttonLoading }) => {
   const sampleWorkouts = [
     "#Legs\n-Back Squat\n-5 setsX15 reps\n-30 kg\n-10 min",
     "#Arms\n-Bicep Curls\n-3 setsX12 reps\n-15 kg\n-8 min",
@@ -59,10 +60,6 @@ const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
     "#Upper Body\n-Push-Ups\n-4 setsX12 reps\n-Bodyweight\n-10 min",
   ];
 
-  const handleSampleClick = (sample) => {
-    setWorkout((prevWorkout) => prevWorkout + "\n" + sample);
-  };
-
   return (
     <Card>
       <Title>Add New Workout</Title>
@@ -79,7 +76,6 @@ const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
 -Weight
 -Duration`}
         value={workout}
-        handelChange={(e) => setWorkout(e.target.value)}
       />
       <Button
         text="Add Workout"
@@ -90,9 +86,7 @@ const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
       />
       <SampleWorkouts>
         {sampleWorkouts.map((sample, index) => (
-          <SampleWorkoutCard key={index} onClick={() => handleSampleClick(sample)}>
-            {sample}
-          </SampleWorkoutCard>
+          <SampleWorkoutCard key={index}>{sample}</SampleWorkoutCard>
         ))}
       </SampleWorkouts>
     </Card>
