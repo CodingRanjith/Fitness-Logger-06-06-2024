@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import TextInput from "./TextInput";
 import Button from "./Button";
@@ -32,18 +32,18 @@ const SampleWorkouts = styled.div`
   gap: 10px;
 `;
 const SampleWorkoutCard = styled.div`
-  font-size:10px;
-  width: 50px; /* Adjust width as needed */
-  height: 80px; /* Adjust height as needed */
+  font-size:8px;
+  width: 60px; /* Adjust width as needed */
+  height: 70px; /* Adjust height as needed */
   padding: 10px;
   border: 1px solid ${({ theme }) => theme.text_primary + 20};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.background_secondary};
   color: ${({ theme }) => theme.text_primary};
-  cursor: pointer;
+  overflow: hidden; /* Hide overflowing text */
 `;
 
-const AddWorkout = ({ workout, addNewWorkout, buttonLoading }) => {
+const AddWorkout = ({setWorkout, addNewWorkout, buttonLoading }) => {
   const sampleWorkouts = [
     "#Legs\n-Back Squat\n-5 setsX15 reps\n-30 kg\n-10 min",
     "#Arms\n-Bicep Curls\n-3 setsX12 reps\n-15 kg\n-8 min",
@@ -62,10 +62,6 @@ const AddWorkout = ({ workout, addNewWorkout, buttonLoading }) => {
     "#Upper Body\n-Push-Ups\n-4 setsX12 reps\n-Bodyweight\n-10 min",
   ];
 
-  const handleSampleClick = (sample) => {
-    addNewWorkout(workout + "\n" + sample);
-  };
-
   return (
     <Card>
       <Title>Add New Workout</Title>
@@ -81,20 +77,19 @@ const AddWorkout = ({ workout, addNewWorkout, buttonLoading }) => {
 -Reps
 -Weight
 -Duration`}
-        value={workout}
+        value=""
+        handelChange={(e) => setWorkout(e.target.value)}
       />
       <Button
         text="Add Workout"
         small
-        onClick={() => addNewWorkout(workout)}
+        onClick={() => addNewWorkout()}
         isLoading={buttonLoading}
         isDisabled={buttonLoading}
       />
       <SampleWorkouts>
         {sampleWorkouts.map((sample, index) => (
-          <SampleWorkoutCard key={index} onClick={() => handleSampleClick(sample)}>
-            {sample}
-          </SampleWorkoutCard>
+          <SampleWorkoutCard key={index}>{sample}</SampleWorkoutCard>
         ))}
       </SampleWorkouts>
     </Card>
@@ -102,3 +97,4 @@ const AddWorkout = ({ workout, addNewWorkout, buttonLoading }) => {
 };
 
 export default AddWorkout;
+
