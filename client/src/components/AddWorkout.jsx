@@ -64,7 +64,7 @@ const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
   return (
     <Card>
       <Title>Add New Workout</Title>
-      <TextInput
+      <TextInput styled
         label="Workout"
         textArea
         rows={10}
@@ -78,6 +78,7 @@ const AddWorkout = ({ workout, setWorkout, addNewWorkout, buttonLoading }) => {
 -Duration`}
         value={workout}
         handelChange={(e) => setWorkout(e.target.value)}
+        style={{ height: '80px' }}
       />
       <Button
         text="Add Workout"
