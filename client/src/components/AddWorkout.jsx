@@ -62,10 +62,6 @@ const AddWorkout = ({ workout, addNewWorkout, buttonLoading }) => {
     "#Upper Body\n-Push-Ups\n-4 setsX12 reps\n-Bodyweight\n-10 min",
   ];
 
-  const handleSampleClick = (sample) => {
-    setWorkout((prevWorkout) => prevWorkout + "\n" + sample);
-  };
-
   return (
     <Card>
       <Title>Add New Workout</Title>
